@@ -120,9 +120,9 @@ def get_solution_by_runge_kutta_4th_order_accuracy_right(left, right, init_condi
 
         # Вычисление вспомогательных коэффициентов
         k1 = f(u1, u2, sigma(x), _lambda)
-        k2 = f(u1 + stride * k1[0] / 2, u2 + stride * k1[1] / 2, sigma(x1), _lambda)
-        k3 = f(u1 + stride * k2[0] / 2, u2 + stride * k2[1] / 2, sigma(x1), _lambda)
-        k4 = f(u1 + stride * k3[0], u2 + stride * k3[1], sigma(x2), _lambda)
+        k2 = f(u1 - stride * k1[0] / 2, u2 - stride * k1[1] / 2, sigma(x1), _lambda)
+        k3 = f(u1 - stride * k2[0] / 2, u2 - stride * k2[1] / 2, sigma(x1), _lambda)
+        k4 = f(u1 - stride * k3[0], u2 - stride * k3[1], sigma(x2), _lambda)
 
         # Вычисление значений решений в текущем узле
         u1_arr[i] = u1 - stride * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]) / 6
@@ -204,15 +204,15 @@ x_arr_right = get_arr(d, T, n)
 lambda_arr = get_arr(1, 50, n)
 
 # Массивы значений
-y_varphi = [varphi(x, _lambda) for x in x_arr_left]
-y_quasi_der_varphi = [quasi_der_varphi(x, _lambda) for x in x_arr_left]
-y_psi = [psi(x, _lambda) for x in x_arr_right]
-y_quasi_der_psi = [quasi_der_psi(x, _lambda) for x in x_arr_right]
+#y_varphi = [varphi(x, _lambda) for x in x_arr_left]
+#y_quasi_der_varphi = [quasi_der_varphi(x, _lambda) for x in x_arr_left]
+#y_psi = [psi(x, _lambda) for x in x_arr_right]
+#y_quasi_der_psi = [quasi_der_psi(x, _lambda) for x in x_arr_right]
 y_Delta = [Delta(_lambda) for _lambda in lambda_arr]
 y_Delta0 = [Delta0(_lambda) for _lambda in lambda_arr]
 
-[numeric_varphi, numeric_quasi_der_varphi] = get_solution_by_runge_kutta_4th_order_accuracy_left(0, d, [1, h], _lambda, n)
-[numeric_psi, numeric_quasi_der_psi] = get_solution_by_runge_kutta_4th_order_accuracy_right(d, T, [1, -H], _lambda, n)
+#[numeric_varphi, numeric_quasi_der_varphi] = get_solution_by_runge_kutta_4th_order_accuracy_left(0, d, [1, h], _lambda, n)
+#[numeric_psi, numeric_quasi_der_psi] = get_solution_by_runge_kutta_4th_order_accuracy_right(d, T, [1, -H], _lambda, n)
 numerical_Delta = [calc_Delta(_lambda) for _lambda in lambda_arr]
 
 #draw(x_arr_left, y_varphi, label='Phi')
@@ -229,7 +229,10 @@ draw(lambda_arr, numerical_Delta, label='Характеристическая ф
 
 draw(lambda_arr, y_Delta0, label='Характеристическая функция задачи с нулевым потенциалом', color='green')
 
+# Получение собственных значений
 #eigenvalues = get_eigenvalues(calc_Delta, right=2000)
 #eigenvalues0 = get_eigenvalues(Delta0, right=2000)
+
+#Вывод последних 20 значений
 #print(eigenvalues[-20:])
-#print(eigenvalues0[-20:])
+#rint(eigenvalues0[-20:])
