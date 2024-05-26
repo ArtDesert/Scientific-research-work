@@ -45,8 +45,10 @@ def Delta(_lambda):
 # Задача с нулевым потенциалом
 def Delta0(_lambda):
     '''Возвращает значение характеристической функции для задачи с нулевым потенциалом'''
+    b1 = (a + pow(a, -1)) / 2
+    b2 = (a - pow(a, -1)) / 2
     p = sqrt(_lambda)
-    return -p * (sin(p * T) - sin(p * (2 * d - T)))
+    return -p * (b1 * sin(p * T) - b2 * sin(p * (2 * d - T)))
 
 # Численное решение
 def get_arr(left, right, n):
@@ -191,10 +193,10 @@ def draw(x_arr, y_arr, label="", color='orange'):
 a = 1
 d = 1
 T = 5
-h = 1
-H = 2
+h = 0
+H = 0
 c = 5
-sigma = lambda x : c
+sigma = lambda x : 0
 n = 1000 # Число отрезков разбиения для метода Рунге-Кутты
 
 # Локальные переменные
@@ -208,7 +210,7 @@ lambda_arr = get_arr(1, 50, n)
 #y_quasi_der_varphi = [quasi_der_varphi(x, _lambda) for x in x_arr_left]
 #y_psi = [psi(x, _lambda) for x in x_arr_right]
 #y_quasi_der_psi = [quasi_der_psi(x, _lambda) for x in x_arr_right]
-y_Delta = [Delta(_lambda) for _lambda in lambda_arr]
+#y_Delta = [Delta(_lambda) for _lambda in lambda_arr]
 y_Delta0 = [Delta0(_lambda) for _lambda in lambda_arr]
 
 #[numeric_varphi, numeric_quasi_der_varphi] = get_solution_by_runge_kutta_4th_order_accuracy_left(0, d, [1, h], _lambda, n)
@@ -219,7 +221,7 @@ numerical_Delta = [calc_Delta(_lambda) for _lambda in lambda_arr]
 #draw(x_arr_left, y_quasi_der_varphi, label='Phi^[1]')
 #draw(x_arr_right, y_psi, label='Psi')
 #draw(x_arr_right, y_quasi_der_psi, label='Psi^[1]')
-draw(lambda_arr, y_Delta, label='Характеристическая функция (аналит.)', color='green')
+#draw(lambda_arr, y_Delta, label='Характеристическая функция (аналит.)', color='green')
 
 #draw(x_arr_left, numeric_varphi, label='Численное решение Phi', color='blue')
 #draw(x_arr_left, numeric_quasi_der_varphi, label='Численное решение Phi^[1]', color='blue')
@@ -230,9 +232,9 @@ draw(lambda_arr, numerical_Delta, label='Характеристическая ф
 draw(lambda_arr, y_Delta0, label='Характеристическая функция задачи с нулевым потенциалом', color='green')
 
 # Получение собственных значений
-#eigenvalues = get_eigenvalues(calc_Delta, right=2000)
-#eigenvalues0 = get_eigenvalues(Delta0, right=2000)
+eigenvalues = get_eigenvalues(calc_Delta, right=50)
+eigenvalues0 = get_eigenvalues(Delta0, right=50)
 
 #Вывод последних 20 значений
-#print(eigenvalues[-20:])
-#rint(eigenvalues0[-20:])
+print(eigenvalues[:])
+print(eigenvalues0[:])
